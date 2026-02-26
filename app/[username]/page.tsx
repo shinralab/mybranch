@@ -1,4 +1,4 @@
-import { notFound } from 'next/navigation'
+
 import type { Metadata } from 'next'
 import Nav from '@/components/Nav'
 import ProfileClient from './ProfileClient'
@@ -38,23 +38,19 @@ export default async function ProfilePage({ params, searchParams }: Props) {
   // We store it as-is and let the URL be the branch identifier
   const branchName = rawParam
 
-  const isRoot = branchName.toLowerCase() === 'main'
-    || branchName.toLowerCase() === ROOT_USER.toLowerCase()
+  const isRoot = branchName.toLowerCase() === ROOT_USER.toLowerCase()
 
-  // If someone's trying to impersonate root username
-  if (!isRoot && isReservedName(branchName) && branchName.toLowerCase() !== ROOT_USER.toLowerCase()) {
-    notFound()
-  }
+  const actualBranch = branchName
+
+  
 
   // Resolve the actual branch: root maps to 'main'
-  const actualBranch = isRoot ? 'main' : branchName
+  
   const requestedBranch = searchParams.branch ?? actualBranch
 
   // Check branch exists
   const branchData = await getBranch(requestedBranch)
-  if (!branchData && !isRoot) {
-    notFound()
-  }
+  
 
   // Fetch everything in parallel
   const [allBranches, commits] = await Promise.all([
