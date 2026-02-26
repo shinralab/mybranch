@@ -48,7 +48,7 @@ export default async function ProfilePage({ params, searchParams }: Props) {
   }
 
   // Resolve the actual branch: root maps to 'main'
-  const actualBranch = isRoot ? 'main' : branchName
+
   const requestedBranch = searchParams.branch ?? actualBranch
 
   // Check branch exists
