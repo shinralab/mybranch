@@ -42,10 +42,7 @@ export default async function ProfilePage({ params, searchParams }: Props) {
 
   const actualBranch = branchName
 
-  // If someone's trying to impersonate root username
-  if (!isRoot && isReservedName(branchName) && branchName.toLowerCase() !== ROOT_USER.toLowerCase()) {
-    notFound()
-  }
+  
 
   // Resolve the actual branch: root maps to 'main'
   const actualBranch = isRoot ? 'main' : branchName
