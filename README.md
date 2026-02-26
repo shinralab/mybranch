@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ⌥ mybranch.fun
 
 > One tree. Infinite branches. Every branch is a person.
@@ -149,3 +150,7 @@ npm run dev
 ---
 
 *rooted at MF DOGE · no database · no auth · just git*
+=======
+# mybranch
+One tree. Every branch is a person. Fork it, build your profile, push it. No accounts — just git.
+>>>>>>> f1d12987ffaa5ea81e7c38f29a528850cb14800f
