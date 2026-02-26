@@ -38,8 +38,9 @@ export default async function ProfilePage({ params, searchParams }: Props) {
   // We store it as-is and let the URL be the branch identifier
   const branchName = rawParam
 
-  const isRoot = branchName.toLowerCase() === 'main'
-    || branchName.toLowerCase() === ROOT_USER.toLowerCase()
+  const isRoot = branchName.toLowerCase() === ROOT_USER.toLowerCase()
+
+  const actualBranch = branchName
 
   // If someone's trying to impersonate root username
   if (!isRoot && isReservedName(branchName) && branchName.toLowerCase() !== ROOT_USER.toLowerCase()) {
