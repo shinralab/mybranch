@@ -48,14 +48,12 @@ export default async function ProfilePage({ params, searchParams }: Props) {
   }
 
   // Resolve the actual branch: root maps to 'main'
-
+  const actualBranch = isRoot ? 'main' : branchName
   const requestedBranch = searchParams.branch ?? actualBranch
 
   // Check branch exists
   const branchData = await getBranch(requestedBranch)
-  if (!branchData && !isRoot) {
-    notFound()
-  }
+  
 
   // Fetch everything in parallel
   const [allBranches, commits] = await Promise.all([
