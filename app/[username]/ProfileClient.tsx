@@ -302,7 +302,7 @@ export default function ProfileClient({
                   onClick={() => selectBranch(b.name)}
                   className="w-full text-left px-3 py-1.5 hover:bg-[var(--gh-surface-2)] transition-colors flex items-center gap-1.5"
                 >
-                  <IconBranch size={11} style={{ color: 'var(--gh-text-dim)', flexShrink: 0 }} />
+                  <IconBranch size={11} className="text-[var(--gh-text-dim)] shrink-0" />
                   <span
                     className="font-mono truncate"
                     style={{
