@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <rect width="32" height="32" rx="6" fill="#010409"/>
+  <!-- git branch icon -->
+  <circle cx="10" cy="8" r="3" fill="#ffd700"/>
+  <circle cx="10" cy="24" r="3" fill="#39d353"/>
+  <circle cx="22" cy="14" r="3" fill="#58a6ff"/>
+  <line x1="10" y1="11" x2="10" y2="21" stroke="#30363d" stroke-width="2"/>
+  <path d="M10 13 Q10 14 22 14" stroke="#30363d" stroke-width="2" fill="none"/>
+</svg>

@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MF DOGE · mybranch.fun</title>
+  <style>
+    /* ─────────────────────────────────────────────────────────
+       MF DOGE's profile — the root of the tree
+       Fork this. Delete everything. Build yours.
+       Or keep some of it. I don't care. The tree knows who's who.
+    ───────────────────────────────────────────────────────── */
+
+    @import url('https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&family=VT323&display=swap');
+
+    :root {
+      --bg: #050505;
+      --gold: #ffd700;
+      --green: #00ff41;
+      --dim: #1a1a1a;
+      --border: #2a2a2a;
+      --text: #e0e0e0;
+      --muted: #666;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Pixelify Sans', monospace;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Scanline effect */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg,
+        transparent,
+        transparent 2px,
+        rgba(0,0,0,0.15) 2px,
+        rgba(0,0,0,0.15) 4px
+      );
+      pointer-events: none;
+      z-index: 1000;
+    }
+
+    /* ── Header ── */
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      background: linear-gradient(180deg, #0a0a0a 0%, var(--bg) 100%);
+      position: relative;
+    }
+
+    .avatar {
+      width: 80px;
+      height: 80px;
+      border: 2px solid var(--gold);
+      border-radius: 4px;
+      background: var(--dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      flex-shrink: 0;
+      box-shadow: 0 0 20px rgba(255,215,0,0.3), inset 0 0 20px rgba(255,215,0,0.05);
+      animation: pulse-border 3s ease-in-out infinite;
+    }
+
+    @keyframes pulse-border {
+      0%, 100% { box-shadow: 0 0 20px rgba(255,215,0,0.3); }
+      50% { box-shadow: 0 0 40px rgba(255,215,0,0.6), 0 0 80px rgba(255,215,0,0.1); }
+    }
+
+    .header-text h1 {
+      font-family: 'VT323', monospace;
+      font-size: 2.8rem;
+      color: var(--gold);
+      line-height: 1;
+      text-shadow: 0 0 20px rgba(255,215,0,0.5);
+      letter-spacing: 2px;
+    }
+
+    .header-text .handle {
+      font-size: 0.75rem;
+      color: var(--muted);
+      letter-spacing: 3px;
+      margin-top: 4px;
+      text-transform: uppercase;
+    }
+
+    .status-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: blink 1.5s step-end infinite;
+      margin-right: 6px;
+    }
+
+    @keyframes blink {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0; }
+    }
+
+    /* ── Layout ── */
+    .layout {
+      display: grid;
+      grid-template-columns: 200px 1fr 200px;
+      gap: 0;
+      min-height: calc(100vh - 130px);
+    }
+
+    @media (max-width: 768px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar-left, .sidebar-right { display: none; }
+    }
+
+    /* ── Sidebars ── */
+    .sidebar-left, .sidebar-right {
+      border-right: 1px solid var(--border);
+      padding: 16px;
+      background: #080808;
+    }
+
+    .sidebar-right {
+      border-right: none;
+      border-left: 1px solid var(--border);
+    }
+
+    .sidebar-section {
+      margin-bottom: 20px;
+    }
+
+    .sidebar-section h3 {
+      font-size: 0.6rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 8px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 6px;
+    }
+
+    .sidebar-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 0;
+      font-size: 0.75rem;
+      color: var(--text);
+    }
+
+    .sidebar-item .icon { color: var(--gold); }
+
+    /* ── Main content ── */
+    main {
+      padding: 24px;
+      border-right: 1px solid var(--border);
+    }
+
+    .bio-box {
+      background: var(--dim);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--gold);
+      padding: 16px 20px;
+      margin-bottom: 20px;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .bio-box p {
+      font-size: 0.85rem;
+      line-height: 1.8;
+      color: var(--text);
+    }
+
+    /* ── Now playing ── */
+    .now-playing {
+      background: var(--dim);
+      border: 1px solid var(--border);
+      padding: 12px 16px;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-radius: 4px;
+    }
+
+    .vinyl {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: conic-gradient(
+        #111 0deg 20deg, #333 20deg 40deg,
+        #111 40deg 60deg, #333 60deg 80deg,
+        #111 80deg 100deg, #333 100deg 120deg,
+        #111 120deg 140deg, #333 140deg 160deg,
+        #111 160deg 180deg, #333 180deg 200deg,
+        #111 200deg 220deg, #333 220deg 240deg,
+        #111 240deg 260deg, #333 260deg 280deg,
+        #111 280deg 300deg, #333 300deg 320deg,
+        #111 320deg 340deg, #333 340deg 360deg
+      );
+      animation: spin 3s linear infinite;
+      flex-shrink: 0;
+      position: relative;
+    }
+
+    .vinyl::after {
+      content: '';
+      position: absolute;
+      inset: 35%;
+      border-radius: 50%;
+      background: var(--gold);
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .now-playing-text .track { font-size: 0.75rem; color: var(--gold); }
+    .now-playing-text .artist { font-size: 0.65rem; color: var(--muted); }
+
+    /* ── Interests grid ── */
+    .interests {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 20px;
+    }
+
+    .interest-card {
+      background: var(--dim);
+      border: 1px solid var(--border);
+      padding: 12px 8px;
+      text-align: center;
+      font-size: 0.65rem;
+      color: var(--muted);
+      border-radius: 4px;
+      transition: border-color 0.2s, color 0.2s;
+      cursor: default;
+    }
+
+    .interest-card:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+
+    .interest-card .emoji { font-size: 1.4rem; display: block; margin-bottom: 4px; }
+
+    /* ── Top 8 (friends, but it's branches) ── */
+    .top8-title {
+      font-family: 'VT323', monospace;
+      font-size: 1.2rem;
+      color: var(--gold);
+      margin-bottom: 12px;
+      letter-spacing: 2px;
+    }
+
+    .top8-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+    }
+
+    .top8-item {
+      text-align: center;
+    }
+
+    .top8-avatar {
+      width: 100%;
+      aspect-ratio: 1;
+      background: var(--dim);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      margin-bottom: 4px;
+      transition: border-color 0.2s;
+    }
+
+    .top8-item:hover .top8-avatar { border-color: var(--gold); }
+
+    .top8-name {
+      font-size: 0.55rem;
+      color: var(--muted);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* ── Footer ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 12px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.6rem;
+      color: var(--muted);
+      background: #080808;
+    }
+
+    .visitor-counter {
+      font-family: 'VT323', monospace;
+      font-size: 0.85rem;
+      color: var(--green);
+      letter-spacing: 2px;
+    }
+
+    /* ── Marquee ── */
+    .marquee-wrap {
+      background: var(--gold);
+      color: #000;
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 3px 0;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+    }
+
+    .marquee-inner {
+      display: inline-block;
+      animation: marquee 20s linear infinite;
+    }
+
+    @keyframes marquee {
+      from { transform: translateX(100vw); }
+      to   { transform: translateX(-100%); }
+    }
+
+  </style>
+</head>
+<body>
+
+<!-- Marquee banner -->
+<div class="marquee-wrap">
+  <span class="marquee-inner">
+    ★ WELCOME TO THE TREE ★ FORK THIS ★ MAKE IT YOURS ★ NO ACCOUNTS ★ JUST GIT ★
+    MYBRANCH.FUN ★ ROOTED AT MF DOGE ★ THE TREE KNOWS ★
+  </span>
+</div>
+
+<!-- Header -->
+<header>
+  <div class="avatar">🐕</div>
+  <div class="header-text">
+    <h1>MF DOGE</h1>
+    <div class="handle">
+      <span class="status-dot"></span>
+      root of the tree · online
+    </div>
+  </div>
+</header>
+
+<!-- Main layout -->
+<div class="layout">
+
+  <!-- Left sidebar -->
+  <div class="sidebar-left">
+    <div class="sidebar-section">
+      <h3>Details</h3>
+      <div class="sidebar-item"><span class="icon">🌳</span> root node</div>
+      <div class="sidebar-item"><span class="icon">🔒</span> main (protected)</div>
+      <div class="sidebar-item"><span class="icon">📍</span> the internet</div>
+      <div class="sidebar-item"><span class="icon">📅</span> since forever</div>
+    </div>
+
+    <div class="sidebar-section">
+      <h3>Links</h3>
+      <div class="sidebar-item">
+        <span class="icon">⌥</span>
+        <a href="https://mybranch.fun" style="color: #ffd700; text-decoration: none; font-size: 0.7rem;">mybranch.fun</a>
+      </div>
+      <div class="sidebar-item">
+        <span class="icon">🔀</span>
+        <a href="https://gitdev.fun" style="color: #ffd700; text-decoration: none; font-size: 0.7rem;">gitdev.fun</a>
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <h3>Stats</h3>
+      <div class="sidebar-item"><span class="icon">⭐</span> <span id="star-count">—</span> stars</div>
+      <div class="sidebar-item"><span class="icon">🔀</span> <span id="fork-count">—</span> forks</div>
+    </div>
+  </div>
+
+  <!-- Main -->
+  <main>
+    <!-- Now playing -->
+    <div class="now-playing">
+      <div class="vinyl"></div>
+      <div class="now-playing-text">
+        <div class="track">🎵 Now vibing to...</div>
+        <div class="artist">whatever I feel like</div>
+      </div>
+    </div>
+
+    <!-- Bio -->
+    <div class="bio-box">
+      <p>
+        I'm the root of this tree. Fork me. Branch off me.
+        Build your profile in pure HTML and push it.
+        The tree remembers every branch. The graph never lies.
+        <br><br>
+        This is MySpace if MySpace understood git.
+        Full HTML freedom. No algorithms. No feeds.
+        Just a tree of people and groups, all connected
+        through the most honest data structure ever invented.
+        <br><br>
+        You can't commit to my branch. But you can be on the tree.
+      </p>
+    </div>
+
+    <!-- Interests -->
+    <div class="interests">
+      <div class="interest-card">
+        <span class="emoji">🌳</span>
+        trees
+      </div>
+      <div class="interest-card">
+        <span class="emoji">🔀</span>
+        branching
+      </div>
+      <div class="interest-card">
+        <span class="emoji">💾</span>
+        version control
+      </div>
+      <div class="interest-card">
+        <span class="emoji">🎨</span>
+        html art
+      </div>
+      <div class="interest-card">
+        <span class="emoji">🐕</span>
+        dogs
+      </div>
+      <div class="interest-card">
+        <span class="emoji">⌥</span>
+        alt keys
+      </div>
+    </div>
+
+    <!-- Top 8 = top branches -->
+    <div class="top8-title">TOP BRANCHES</div>
+    <div class="top8-grid">
+      <div class="top8-item">
+        <div class="top8-avatar">👤</div>
+        <div class="top8-name">your branch</div>
+      </div>
+      <div class="top8-item">
+        <div class="top8-avatar">👤</div>
+        <div class="top8-name">your branch</div>
+      </div>
+      <div class="top8-item">
+        <div class="top8-avatar">👤</div>
+        <div class="top8-name">your branch</div>
+      </div>
+      <div class="top8-item">
+        <div class="top8-avatar">👤</div>
+        <div class="top8-name">your branch</div>
+      </div>
+      <div class="top8-item">
+        <div class="top8-avatar">👤</div>
+        <div class="top8-name">your branch</div>
+      </div>
+      <div class="top8-item">
+        <div class="top8-avatar">👤</div>
+        <div class="top8-name">your branch</div>
+      </div>
+      <div class="top8-item">
+        <div class="top8-avatar">👤</div>
+        <div class="top8-name">your branch</div>
+      </div>
+      <div class="top8-item">
+        <div class="top8-avatar">👤</div>
+        <div class="top8-name">your branch</div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Right sidebar -->
+  <div class="sidebar-right">
+    <div class="sidebar-section">
+      <h3>Mood</h3>
+      <div class="sidebar-item">😤 branching</div>
+    </div>
+
+    <div class="sidebar-section">
+      <h3>Contact</h3>
+      <div class="sidebar-item" style="font-size: 0.65rem; color: #555;">
+        open a PR on<br>the repo
+      </div>
+    </div>
+
+    <div class="sidebar-section">
+      <h3>About me</h3>
+      <div style="font-size: 0.65rem; color: #666; line-height: 1.7;">
+        I am the root.<br>
+        You can fork but<br>
+        you can't touch main.
+      </div>
+    </div>
+
+    <div class="sidebar-section" style="margin-top: auto;">
+      <h3>Visitor count</h3>
+      <div class="visitor-counter">
+        000<span id="vc">???</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Footer -->
+<footer>
+  <span>mybranch.fun · rooted at MF DOGE · gitdev.fun</span>
+  <span style="color: #39d353;">● online</span>
+</footer>
+
+<script>
+  // Visitor counter (purely decorative — it's in a sandboxed iframe)
+  document.getElementById('vc').textContent =
+    String(Math.floor(Math.random() * 9000) + 1000);
+
+  // Add some life to the page
+  document.querySelectorAll('.interest-card').forEach(card => {
+    card.addEventListener('mouseenter', () => {
+      card.style.transform = 'scale(1.05)';
+      card.style.transition = 'transform 0.1s';
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+</script>
+
+</body>
+</html>
