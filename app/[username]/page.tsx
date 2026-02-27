@@ -39,10 +39,10 @@ export default async function ProfilePage({ params, searchParams }: Props) {
 
   const requestedBranch = searchParams.branch ?? branchName
 
-  const branchData = await getBranch(requestedBranch)
-  if (!branchData) {
-    notFound()
-  }
+  // const branchData = await getBranch(requestedBranch)
+  // if (!branchData) {
+  //  notFound()
+  //}
 
   const [allBranches, commits] = await Promise.all([
     getAllBranches(),
