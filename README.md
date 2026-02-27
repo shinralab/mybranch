@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # ⌥ mybranch.fun
 
 > One tree. Infinite branches. Every branch is a person.
@@ -20,7 +19,7 @@ But you can fork the whole tree and add your own branch.
 ## How to join
 
 ### 1. Fork this repo
-Hit the Fork button on GitHub. This gives you your own copy.
+Hit the Fork button on GitHub.
 
 ### 2. Create your branch
 ```bash
@@ -31,15 +30,12 @@ git checkout -b your-username
 
 ### 3. Make index.html yours
 Edit `index.html`. This is your entire profile — full HTML canvas.
-Delete everything I wrote. Or keep it. The tree shows who forked from whom.
 
 ```bash
-# Some ideas:
-# - Dark background, glowing text, CSS animations
-# - Three.js scene
-# - A full band page with embedded audio
-# - A portfolio with scroll animations
-# - Literally anything HTML can do
+# dark bg + css animations
+# three.js scene
+# portfolio with scroll animations
+# band page with embedded audio
 ```
 
 ### 4. Push and open a PR
@@ -49,9 +45,7 @@ git commit -m "my profile"
 git push origin your-username
 ```
 
-Then open a PR on GitHub. **Don't target `main`** — just submit the PR
-with your branch as the head. We'll add your branch to the tree.
-
+Open a PR on GitHub. **Don't target `main`** — submit the PR with your branch as the head.
 Once merged: you're live at `https://mybranch.fun/your-username`
 
 ---
@@ -89,13 +83,13 @@ That's a real git branch-off-a-branch. It shows in the graph.
 <link rel="stylesheet" href="https://raw.githubusercontent.com/YOUR-USERNAME/mybranch/your-branch/assets/style.css">
 ```
 
-**Via proxy:** The site can serve your assets too:
+**Via proxy:**
 ```
 /api/profile-asset?owner=REPO_OWNER&repo=mybranch&branch=your-username&path=assets/photo.jpg
 ```
 
-**Note:** Your profile runs in a sandboxed iframe. `allow-same-origin` is OFF by design.
-External CDNs (Google Fonts, Three.js CDN, etc.) work fine because those aren't same-origin restrictions.
+> Your profile runs in a sandboxed iframe. `allow-same-origin` is OFF by design.
+> External CDNs work fine.
 
 ---
 
@@ -117,40 +111,4 @@ External CDNs (Google Fonts, Three.js CDN, etc.) work fine because those aren't 
 
 ---
 
-## Local dev (for site contributors)
-
-```bash
-git clone https://github.com/MFDOGE/mybranch
-cd mybranch
-npm install
-cp .env.local.example .env.local
-# Fill in your GITHUB_OWNER, GITHUB_REPO, GITHUB_TOKEN
-npm run dev
-# → http://localhost:3000
-```
-
-### Vercel deploy
-
-1. Push to GitHub
-2. Import to vercel.com
-3. Set env vars:
-   - `GITHUB_OWNER` — repo owner username
-   - `GITHUB_REPO` — repo name (`mybranch`)
-   - `ROOT_USERNAME` — your username (`MFDOGE`)
-   - `GITHUB_TOKEN` — personal access token (recommended)
-   - `NEXT_PUBLIC_SITE_URL` — `https://mybranch.fun`
-
----
-
-## Domains
-
-- `mybranch.fun` — the main site (leaderboard + profiles + graph)
-- `gitdev.fun` — coming soon
-
----
-
 *rooted at MF DOGE · no database · no auth · just git*
-=======
-# mybranch
-One tree. Every branch is a person. Fork it, build your profile, push it. No accounts — just git.
->>>>>>> f1d12987ffaa5ea81e7c38f29a528850cb14800f
