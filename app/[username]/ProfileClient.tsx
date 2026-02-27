@@ -38,7 +38,7 @@ export default function ProfileClient({
   commits,
   lastUpdated,
 }: ProfileClientProps) {
-  const [branch, setBranch] = useState(initialBranch)
+  const [branch, setBranch] = useState(initialBranch || branchName)
   const [dropOpen, setDropOpen] = useState(false)
   const [iframeLoaded, setIframeLoaded] = useState(false)
   const [iframeKey, setIframeKey] = useState(0)
@@ -246,7 +246,7 @@ export default function ProfileClient({
             <iframe
               key={iframeKey}
               src={iframeSrc}
-              sandbox="allow-scripts"
+              sandbox="allow-scripts allow-popups allow-presentation"
               referrerPolicy="no-referrer"
               className="profile-frame"
               title={`${username} profile`}
