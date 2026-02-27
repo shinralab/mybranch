@@ -246,7 +246,7 @@ export default function ProfileClient({
             <iframe
               key={iframeKey}
               src={iframeSrc}
-              sandbox="allow-scripts"
+              sandbox="allow-scripts allow-popups allow-presentation"
               referrerPolicy="no-referrer"
               className="profile-frame"
               title={`${username} profile`}
