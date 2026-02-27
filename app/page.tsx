@@ -5,6 +5,33 @@ import type { BranchStat } from '@/lib/github'
 import { timeAgo, displayName, shortMsg } from '@/lib/utils'
 import { IconBranch, IconCommit, IconFork, IconStar, IconEye, IconGroup } from '@/components/BranchIcon'
 
+import { notFound } from 'next/navigation';
+import { isReservedBranch } from '@/lib/reserved';
+// your other imports...
+
+interface Props {
+  params: { branch: string };
+}
+
+export default async function ProfilePage({ params }: Props) {
+  const branchName = params.branch;
+
+  if (isReservedBranch(branchName)) {
+    notFound();  // or your custom reserved message component
+  }
+
+  const branchData = await getBranch(branchName);
+
+  if (!branchData || !branchData.exists) {
+    notFound();
+  }
+
+  // rest of page: iframe, metadata, etc.
+}
+
+
+
+
 export const revalidate = 60
 
 function ActivityBar({ count }: { count: number }) {
