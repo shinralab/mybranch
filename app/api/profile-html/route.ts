@@ -101,7 +101,11 @@ export async function GET(req: NextRequest) {
 
     const html = await res.text()
 
-    return new NextResponse(html, {
+  const base = `<base href="/api/profile-asset?owner=${owner}&repo=${repo}&branch=${branch}&path=">`
+  const injected = html.replace('<head>', '<head>' + base)
+
+    return new NextResponse(injected, {
+  
       status: 200,
       headers: {
         'Content-Type': 'text/html; charset=utf-8',
