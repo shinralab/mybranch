@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function ProfilePage({ params, searchParams }: Props) {
-  const branchName = decodeURIComponent(params.username)
+  const branchName = decodeURIComponent(params.username ?? '')
 
   const isRoot = branchName.toLowerCase() === ROOT_USER.toLowerCase()
 
