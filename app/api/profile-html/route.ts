@@ -61,17 +61,17 @@ export async function GET(req: NextRequest) {
   const repo   = searchParams.get('repo')   ?? ''
   const branch = searchParams.get('branch') ?? 'main'
 
-  if (!owner || !repo) {
-    return new NextResponse(errorPage('Missing parameters', 'owner and repo are required.'), {
-      status: 400, headers: { 'Content-Type': 'text/html; charset=utf-8' },
-    })
-  }
+  //if (!owner || !repo) {
+  //  return new NextResponse(errorPage('Missing parameters', 'owner and repo are required.'), {
+  //    status: 400, headers: { 'Content-Type': 'text/html; charset=utf-8' },
+  //  })
+  //}
 
-  if (!SAFE.test(owner) || !SAFE.test(repo) || !/^[a-zA-Z0-9._\-/]+$/.test(branch)) {
-    return new NextResponse(errorPage('Invalid parameters', 'Parameters contain disallowed characters.'), {
-      status: 400, headers: { 'Content-Type': 'text/html; charset=utf-8' },
-    })
-  }
+  //if (!SAFE.test(owner) || !SAFE.test(repo) || !/^[a-zA-Z0-9._\-/]+$/.test(branch)) {
+    //return new NextResponse(errorPage('Invalid parameters', 'Parameters contain disallowed characters.'), {
+      //status: 400, headers: { 'Content-Type': 'text/html; charset=utf-8' },
+    //})
+  //}
 
   const url = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/index.html`
 
