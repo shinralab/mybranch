@@ -24,46 +24,33 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const name = decodeURIComponent(params.username)
   return {
     title: `${displayName(name)} · mybranch.fun`,
-    description: `${displayName(name)}'s profile on mybranch.fun — a living git tree.`,
+    description: `${displayName(name)}'s profile on mybranch.fun`,
   }
 }
 
 export default async function ProfilePage({ params, searchParams }: Props) {
-  // Decode the branch name from the URL
-  const rawParam = decodeURIComponent(params.username)
+  const branchName = decodeURIComponent(params.username)
 
-  // Figure out the actual branch name.
-  // People branches: /username → branch = username
-  // Group branches: /group/name or URL encodes to /group%2Fname
-  // We store it as-is and let the URL be the branch identifier
-  const branchName = rawParam
+  const isRoot = branchName.toLowerCase() === ROOT_USER.toLowerCase()
 
-  const isRoot = branchName.toLowerCase() === 'main'
-    || branchName.toLowerCase() === ROOT_USER.toLowerCase()
-
-  // If someone's trying to impersonate root username
-  if (!isRoot && isReservedName(branchName) && branchName.toLowerCase() !== ROOT_USER.toLowerCase()) {
+  if (!isRoot && isReservedName(branchName)) {
     notFound()
   }
 
-  // Resolve the actual branch: root maps to 'main'
-  const actualBranch = isRoot ? 'main' : branchName
-  const requestedBranch = searchParams.branch ?? actualBranch
+  const requestedBranch = searchParams.branch ?? branchName
 
-  // Check branch exists
   const branchData = await getBranch(requestedBranch)
-  if (!branchData && !isRoot) {
+  if (!branchData) {
     notFound()
   }
 
-  // Fetch everything in parallel
   const [allBranches, commits] = await Promise.all([
     getAllBranches(),
     getCommits(requestedBranch, 20),
   ])
 
   const isGroup = branchName.startsWith('group/') || branchName.startsWith('club/')
-  const username = displayName(isRoot ? ROOT_USER : branchName)
+  const username = displayName(branchName)
 
   const lastUpdated = commits[0]
     ? timeAgo(commits[0].commit.author.date)
