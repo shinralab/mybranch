@@ -15,12 +15,13 @@ export async function GET(req: NextRequest) {
   const branch = searchParams.get('branch') ?? 'main'
 
   const url = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/index.html`
-
   const res = await fetch(url, { headers: ghHeaders() })
   const html = await res.text()
 
-  const base = `<base href="/api/profile-asset?owner=${owner}&repo=${repo}&branch=${branch}&path=">`
-  const injected = html.replace('<head>', '<head>' + base)
+  const base = `https://raw.githubusercontent.com/${owner}/${repo}/${branch}/`
+  const injected = html
+    .replace(/href="(?!http|\/\/|#|mailto)(.*?)"/g, `href="${base}$1"`)
+    .replace(/src="(?!http|\/\/|data:)(.*?)"/g, `src="${base}$1"`)
 
   return new NextResponse(injected, {
     status: 200,
