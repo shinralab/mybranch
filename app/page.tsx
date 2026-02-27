@@ -5,6 +5,15 @@ import type { BranchStat } from '@/lib/github';
 import { timeAgo, displayName, shortMsg } from '@/lib/utils';
 import { IconBranch, IconCommit, IconFork, IconStar, IconEye, IconGroup } from '@/components/BranchIcon';
 import { notFound } from 'next/navigation';
+import { redirect } from 'next/navigation';
+
+// ...
+
+const branchName = params.branch;
+
+if (branchName.toUpperCase() === 'MFDOGE' && branchName !== 'MFDOGE') {
+  redirect('/MFDOGE');
+}
 // Add any other imports your full page needs (e.g. for iframe, metadata, etc.)
 
 interface Props {
