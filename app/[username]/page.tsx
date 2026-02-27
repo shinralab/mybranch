@@ -81,7 +81,7 @@ export default async function ProfilePage({ params, searchParams }: Props) {
         templateOwner={REPO_OWNER}
         templateRepo={REPO_NAME}
         branches={allBranches.map(b => ({ name: b.name }))}
-        currentBranch={requestedBranch}
+        currentBranch={branchName}
         commits={commitsForClient}
         lastUpdated={lastUpdated}
       />
