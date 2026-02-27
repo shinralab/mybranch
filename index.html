@@ -4,241 +4,481 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>MF DOGE · mybranch.fun</title>
-  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600&family=VT323&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:      #0d1117;
+      --surface: #161b22;
+      --border:  #21262d;
+      --gold:    #ffd700;
+      --blue:    #4169e1;
+      --green:   #3fb950;
+      --text:    #e6edf3;
+      --muted:   #8b949e;
+      --dim:     #30363d;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Pixelify Sans', monospace;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 3px,
+        rgba(0,0,0,0.07) 3px, rgba(0,0,0,0.07) 4px
+      );
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    a { color: var(--blue); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+
+    .marquee-wrap {
+      background: var(--blue);
+      overflow: hidden;
+      white-space: nowrap;
+      padding: 4px 0;
+    }
+    .marquee-inner {
+      display: inline-block;
+      animation: marquee 28s linear infinite;
+      font-size: 11px;
+      color: #fff;
+      letter-spacing: 2px;
+    }
+    @keyframes marquee {
+      from { transform: translateX(100vw); }
+      to   { transform: translateX(-100%); }
+    }
+
+    header {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .avatar {
+      width: 86px;
+      height: 86px;
+      border: 2px solid var(--gold);
+      border-radius: 6px;
+      background: #1a1200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.4rem;
+      flex-shrink: 0;
+      animation: gold-pulse 3s ease-in-out infinite;
+    }
+    @keyframes gold-pulse {
+      0%,100% { box-shadow: 0 0 20px rgba(255,215,0,0.2); }
+      50%      { box-shadow: 0 0 40px rgba(255,215,0,0.5); }
+    }
+
+    .header-info h1 {
+      font-family: 'VT323', monospace;
+      font-size: 3rem;
+      color: var(--gold);
+      line-height: 1;
+      letter-spacing: 3px;
+      text-shadow: 0 0 24px rgba(255,215,0,0.4);
+    }
+    .header-info .sub {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 6px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .online {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green);
+      animation: blink 2s step-end infinite;
+      display: inline-block;
+    }
+    @keyframes blink {
+      0%,100% { opacity: 1; }
+      50%      { opacity: 0.2; }
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 200px 1fr 200px;
+      min-height: calc(100vh - 160px);
+    }
+    @media (max-width: 800px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+    }
+
+    .sidebar {
+      background: var(--surface);
+      padding: 16px;
+    }
+    .sidebar-left  { border-right: 1px solid var(--border); }
+    .sidebar-right { border-left:  1px solid var(--border); }
+
+    .section { margin-bottom: 20px; }
+    .section-title {
+      font-size: 10px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--dim);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 6px;
+      margin-bottom: 10px;
+    }
+    .row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 0;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .icon { color: var(--gold); }
+
+    .mood {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 8px 10px;
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.7;
+    }
+
+    .vc {
+      font-family: 'VT323', monospace;
+      font-size: 1.2rem;
+      color: var(--green);
+      letter-spacing: 3px;
+    }
+
+    main {
+      padding: 20px;
+      background: var(--bg);
+    }
+
+    .now-playing {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--blue);
+      border-radius: 4px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .vinyl {
+      width: 44px; height: 44px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      background: conic-gradient(
+        #111 0deg 15deg, #2a2a2a 15deg 30deg,
+        #111 30deg 45deg, #2a2a2a 45deg 60deg,
+        #111 60deg 75deg, #2a2a2a 75deg 90deg,
+        #111 90deg 105deg, #2a2a2a 105deg 120deg,
+        #111 120deg 135deg, #2a2a2a 135deg 150deg,
+        #111 150deg 165deg, #2a2a2a 165deg 180deg,
+        #111 180deg 195deg, #2a2a2a 195deg 210deg,
+        #111 210deg 225deg, #2a2a2a 225deg 240deg,
+        #111 240deg 255deg, #2a2a2a 255deg 270deg,
+        #111 270deg 285deg, #2a2a2a 285deg 300deg,
+        #111 300deg 315deg, #2a2a2a 315deg 330deg,
+        #111 330deg 345deg, #2a2a2a 345deg 360deg
+      );
+      animation: spin 4s linear infinite;
+      position: relative;
+      box-shadow: 0 0 10px rgba(65,105,225,0.3);
+    }
+    .vinyl::after {
+      content: '';
+      position: absolute;
+      inset: 38%;
+      border-radius: 50%;
+      background: var(--blue);
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .np-label { font-size: 10px; color: var(--dim); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 2px; }
+    .np-track { font-size: 14px; color: var(--text); }
+    .np-artist { font-size: 11px; color: var(--muted); }
+
+    /* ── YouTube embed ── */
+    .video-wrap {
+      position: relative;
+      padding-bottom: 56.25%;
+      height: 0;
+      margin-bottom: 16px;
+      border-radius: 4px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      background: #000;
+    }
+    .video-wrap iframe {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      border: none;
+    }
+
+    .bio {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 3px solid var(--gold);
+      border-radius: 0 4px 4px 0;
+      padding: 14px 18px;
+      margin-bottom: 16px;
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.8;
+    }
+    .bio strong { color: var(--text); }
+    .bio .gold  { color: var(--gold); }
+
+    .top4-title {
+      font-family: 'VT323', monospace;
+      font-size: 1.3rem;
+      color: var(--blue);
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+    .top4-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .top4-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      transition: border-color 0.15s, background 0.15s;
+    }
+    .top4-card:hover {
+      border-color: var(--blue);
+      background: #0d1530;
+      text-decoration: none;
+    }
+    .top4-avatar {
+      width: 40px; height: 40px;
+      border-radius: 4px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+    .top4-name  { font-size: 13px; color: var(--text); }
+    .top4-branch { font-size: 10px; color: var(--dim); }
+
+    .interests {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+    .chip {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 8px 6px;
+      text-align: center;
+      font-size: 10px;
+      color: var(--dim);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      cursor: default;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .chip:hover { border-color: var(--gold); color: var(--gold); }
+    .chip .e { display: block; font-size: 1.3rem; margin-bottom: 4px; }
+
+    footer {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 10px 24px;
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--dim);
+    }
+  </style>
 </head>
 <body>
 
-<!-- ── Marquee ───────────────────────────────────────────────────────────── -->
 <div class="marquee-wrap">
   <span class="marquee-inner">
-    ★ MYBRANCH.FUN ★ FORK ME. BUILD YOUR PAGE. PUSH IT. YOU'RE LIVE. ★ NO ACCOUNTS. NO ALGORITHM. JUST GIT. ★ MYBRANCH.FUN ★ FORK ME. BUILD YOUR PAGE. PUSH IT. YOU'RE LIVE. ★
+    ★ MYBRANCH.FUN ★ FORK THIS. BUILD YOUR PAGE. PUSH IT. YOU'RE LIVE. ★ NO ACCOUNTS. NO ALGORITHM. JUST GIT. ★ MYBRANCH.FUN ★ FORK THIS. BUILD YOUR PAGE. PUSH IT. YOU'RE LIVE. ★
   </span>
 </div>
-<!--Comment to update-->
-<!-- ── Header ────────────────────────────────────────────────────────────── -->
-<div class="profile-header">
-  <div class="avatar-wrap">
-    <div class="avatar">🐕</div>
-    <div class="online-badge"></div>
-  </div>
+
+<header>
+  <div class="avatar">🐕</div>
   <div class="header-info">
     <h1>MF DOGE</h1>
-    <div class="tagline">founder · mybranch.fun · gitdev.fun</div>
-    <div class="branch-badge">
-      <svg width="12" height="12" viewBox="0 0 16 16" fill="currentColor">
-        <path d="M9.5 3.25a2.25 2.25 0 1 1 3 2.122V6A2.5 2.5 0 0 1 10 8.5H6a1 1 0 0 0-1 1v1.128a2.251 2.251 0 1 1-1.5 0V5.372a2.25 2.25 0 1 1 1.5 0v1.836A2.492 2.492 0 0 1 6 7h4a1 1 0 0 0 1-1v-.628A2.25 2.25 0 0 1 9.5 3.25Z"/>
-      </svg>
-      MFDOGE · root branch
+    <div class="sub">
+      <span class="online"></span>
+      founder · mybranch.fun · gitdev.fun · Shinra LLC
     </div>
   </div>
-</div>
+</header>
 
-<!-- ── Layout ────────────────────────────────────────────────────────────── -->
 <div class="layout">
 
-  <!-- Left sidebar -->
-  <div class="sidebar-left">
-
-    <div class="sidebar-section">
-      <h3>Details</h3>
-      <div class="sidebar-item"><span class="icon">⚡</span> root of mybranch.fun</div>
-      <div class="sidebar-item"><span class="icon">🔒</span> protected branch</div>
-      <div class="sidebar-item"><span class="icon">📍</span> the internet</div>
-      <div class="sidebar-item"><span class="icon">🏢</span> Shinra LLC</div>
+  <div class="sidebar sidebar-left">
+    <div class="section">
+      <div class="section-title">Details</div>
+      <div class="row"><span class="icon">⚡</span> root branch</div>
+      <div class="row"><span class="icon">🔒</span> protected</div>
+      <div class="row"><span class="icon">📍</span> the internet</div>
+      <div class="row"><span class="icon">🏢</span> Shinra LLC</div>
     </div>
-
-    <div class="sidebar-section">
-      <h3>Links</h3>
-      <a class="sidebar-link" href="https://mybranch.fun">mybranch.fun</a>
-      <a class="sidebar-link" href="https://gitdev.fun">gitdev.fun</a>
-      <a class="sidebar-link" href="https://github.com/shinralab/mybranch" target="_blank">github</a>
+    <div class="section">
+      <div class="section-title">Links</div>
+      <div class="row"><a href="https://mybranch.fun">mybranch.fun</a></div>
+      <div class="row"><a href="https://gitdev.fun">gitdev.fun</a></div>
+      <div class="row"><a href="https://github.com/shinralab/mybranch" target="_blank">github</a></div>
     </div>
-
-    <div class="sidebar-section">
-      <h3>Contacting</h3>
-      <div class="mood-display">
-        Open a PR on the repo.<br>
-        That's my inbox now.
-      </div>
+    <div class="section">
+      <div class="section-title">Visitors</div>
+      <div class="vc" id="vc">000000</div>
     </div>
-
-    <div class="sidebar-section">
-      <h3>Visitors</h3>
-      <div class="visitor-count" id="vc">000000</div>
-    </div>
-
   </div>
 
-  <!-- Main -->
   <main>
 
-    <!-- Now playing -->
     <div class="now-playing">
       <div class="vinyl"></div>
-      <div class="now-playing-info">
-        <div class="label">now playing</div>
-        <!-- ↓ swap this out for your track -->
-        <div class="track">Apologize (feat. OneRepublic)</div>
-        <div class="artist">Timbaland</div>
+      <div>
+        <div class="np-label">now playing</div>
+        <!-- swap track name here -->
+        <div class="np-track">Apologize (feat. OneRepublic)</div>
+        <div class="np-artist">Timbaland</div>
       </div>
     </div>
 
-    <!-- YouTube embed -->
+    <!-- swap YouTube URL here — use youtube-nocookie.com/embed/VIDEO_ID -->
     <div class="video-wrap">
-      <!-- ↓ swap this YouTube URL for any video you want -->
       <iframe
-        src="https://www.youtube.com/embed/ZSM3w1v-A_Y?autoplay=0&rel=0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        src="https://www.youtube-nocookie.com/embed/ZSM3w1v-A_Y?rel=0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowfullscreen
         title="Now playing">
       </iframe>
     </div>
 
-    <!-- Bio -->
     <div class="bio">
-      <strong>I built this.</strong> mybranch.fun is a social network built entirely on git.
+      <strong>I built this.</strong> mybranch.fun is a social network that runs entirely on git.
       Your profile is a branch. Your page is an <span class="gold">index.html</span>.
-      The graph is real — it's just the git graph.<br><br>
-      Fork my branch. Build whatever you want. Push it.
-      You're live. No accounts. No feed. No algorithm deciding if anyone sees you.<br><br>
-      <strong>I'm excited to see what you do with it.</strong>
-      That's genuinely the whole point.
+      The graph is the git graph — it doesn't lie.<br><br>
+      Fork my branch. Build whatever you want in pure HTML. Push it. You're live.
+      No accounts. No feed. No algorithm.<br><br>
+      <strong>I'm genuinely excited to see what you do with it.</strong>
     </div>
 
-    <!-- Top 4 -->
-    <div class="top4-header">
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" style="color: #4169e1">
-        <path d="M2 5.5a3.5 3.5 0 1 1 5.898 2.549 5.508 5.508 0 0 1 3.034 4.084.75.75 0 1 1-1.482.235 4.001 4.001 0 0 0-7.9 0 .75.75 0 0 1-1.482-.236A5.507 5.507 0 0 1 3.102 8.05 3.493 3.493 0 0 1 2 5.5Z"/>
-      </svg>
-      Top 4
-    </div>
-
+    <div class="top4-title">TOP 4</div>
     <div class="top4-grid">
-      <!--
-        To customize: change the href to https://mybranch.fun/their-branch-name
-        Only link to actual branch users — the graph knows
-      -->
-      <a class="top4-card" href="https://mybranch.fun/" id="friend1">
+      <!-- swap href to https://mybranch.fun/their-branch-name -->
+      <a class="top4-card" href="https://mybranch.fun">
         <div class="top4-avatar">👤</div>
-        <div class="top4-info">
-          <div class="name">your friend</div>
-          <div class="branch">mybranch.fun/them</div>
+        <div>
+          <div class="top4-name">your friend</div>
+          <div class="top4-branch">mybranch.fun/them</div>
         </div>
       </a>
-      <a class="top4-card" href="https://mybranch.fun/" id="friend2">
+      <a class="top4-card" href="https://mybranch.fun">
         <div class="top4-avatar">👤</div>
-        <div class="top4-info">
-          <div class="name">your friend</div>
-          <div class="branch">mybranch.fun/them</div>
+        <div>
+          <div class="top4-name">your friend</div>
+          <div class="top4-branch">mybranch.fun/them</div>
         </div>
       </a>
-      <a class="top4-card" href="https://mybranch.fun/" id="friend3">
+      <a class="top4-card" href="https://mybranch.fun">
         <div class="top4-avatar">👤</div>
-        <div class="top4-info">
-          <div class="name">your friend</div>
-          <div class="branch">mybranch.fun/them</div>
+        <div>
+          <div class="top4-name">your friend</div>
+          <div class="top4-branch">mybranch.fun/them</div>
         </div>
       </a>
-      <a class="top4-card" href="https://mybranch.fun/" id="friend4">
+      <a class="top4-card" href="https://mybranch.fun">
         <div class="top4-avatar">👤</div>
-        <div class="top4-info">
-          <div class="name">your friend</div>
-          <div class="branch">mybranch.fun/them</div>
+        <div>
+          <div class="top4-name">your friend</div>
+          <div class="top4-branch">mybranch.fun/them</div>
         </div>
       </a>
     </div>
 
-    <!-- Interests -->
-    <div class="interests-grid">
-      <div class="interest-chip"><span class="emoji">🔀</span>git</div>
-      <div class="interest-chip"><span class="emoji">🌐</span>web</div>
-      <div class="interest-chip"><span class="emoji">🎵</span>music</div>
-      <div class="interest-chip"><span class="emoji">🐕</span>dogs</div>
-      <div class="interest-chip"><span class="emoji">🏢</span>shinra</div>
-      <div class="interest-chip"><span class="emoji">⚡</span>building</div>
-    </div>
-
-    <!-- About this page -->
-    <div class="comment-box">
-      <h3>About this page</h3>
-      <p>
-        This is a template. Fork it, gut it, keep what you want.
-        The only rule is your branch name can't be mine.
-        Everything else is yours.
-      </p>
+    <div class="interests">
+      <div class="chip"><span class="e">🔀</span>git</div>
+      <div class="chip"><span class="e">🌐</span>web</div>
+      <div class="chip"><span class="e">🎵</span>music</div>
+      <div class="chip"><span class="e">🐕</span>dogs</div>
+      <div class="chip"><span class="e">🏢</span>shinra</div>
+      <div class="chip"><span class="e">⚡</span>building</div>
     </div>
 
   </main>
 
-  <!-- Right sidebar -->
-  <div class="sidebar-right">
-
-    <div class="sidebar-section">
-      <h3>Mood</h3>
-      <div class="mood-display">building in public 🔨</div>
+  <div class="sidebar sidebar-right">
+    <div class="section">
+      <div class="section-title">Mood</div>
+      <div class="mood">building in public 🔨</div>
     </div>
-
-    <div class="sidebar-section">
-      <h3>Status</h3>
-      <div class="sidebar-item">
-        <span style="width:8px;height:8px;border-radius:50%;background:#3fb950;box-shadow:0 0 6px #3fb950;display:inline-block;flex-shrink:0"></span>
-        online
+    <div class="section">
+      <div class="section-title">Status</div>
+      <div class="row">
+        <span class="online"></span> online
       </div>
     </div>
-
-    <div class="sidebar-section">
-      <h3>Latest commit</h3>
-      <div class="mood-display" id="commit-msg">
-        loading...
-      </div>
+    <div class="section">
+      <div class="section-title">Contact</div>
+      <div class="mood">Open a PR on the repo. That's my inbox now.</div>
     </div>
-
-    <div class="sidebar-section">
-      <h3>gitdev.fun</h3>
-      <div class="mood-display">
-        <a href="https://gitdev.fun" style="color:#6b8fff">myfork.fun</a> coming soon.
-        Same idea. Different door.
-      </div>
+    <div class="section">
+      <div class="section-title">Coming soon</div>
+      <div class="mood"><a href="https://gitdev.fun">myfork.fun</a> — same idea, different door.</div>
     </div>
-
   </div>
 
 </div>
 
-<!-- ── Footer ─────────────────────────────────────────────────────────────── -->
-<div class="profile-footer">
+<footer>
   <span>mybranch.fun · Shinra LLC · built on git</span>
-  <span class="visitor-count" style="font-size:0.8rem" id="vc2">● online</span>
-</div>
+  <span style="color: var(--green)">● online</span>
+</footer>
 
 <script>
-  // Visitor counter — decorative, resets on reload (sandboxed iframe has no storage)
-  const count = String(Math.floor(Math.random() * 90000) + 10000).padStart(6, '0');
-  document.getElementById('vc').textContent = count;
-
-  // Hover lift on top4 cards
-  document.querySelectorAll('.top4-card').forEach(card => {
-    card.addEventListener('mouseenter', () => {
-      card.style.transform = 'translateY(-2px)';
-      card.style.transition = 'transform 0.15s';
-    });
-    card.addEventListener('mouseleave', () => {
-      card.style.transform = '';
-    });
-  });
-
-  // Interest chip hover color randomizer
-  const colors = ['#ffd700', '#4169e1', '#3fb950', '#e63946', '#6b8fff'];
-  document.querySelectorAll('.interest-chip').forEach((chip, i) => {
-    chip.addEventListener('mouseenter', () => {
-      chip.style.borderColor = colors[i % colors.length];
-      chip.style.color = colors[i % colors.length];
-    });
-    chip.addEventListener('mouseleave', () => {
-      chip.style.borderColor = '';
-      chip.style.color = '';
-    });
-  });
+  document.getElementById('vc').textContent =
+    String(Math.floor(Math.random() * 90000) + 10000).padStart(6, '0');
 </script>
 
 </body>
