@@ -11,18 +11,7 @@ export const REPO_OWNER  = OWNER
 export const REPO_NAME   = REPO
 export const ROOT_USER   = ROOT
 
-// ─── Reserved names that can't be used as branch identifiers ─────────────────
-const RESERVED = new Set([
-  ROOT.toLowerCase(),
-  
-   'mf-doge', 'mf_doge',
-])
 
-export function isReservedName(name: string): boolean {
-  return RESERVED.has(name.toLowerCase().replace(/[\s_-]/g, ''))
-   
-    || name.toLowerCase().includes('mf-doge')
-    || name.toLowerCase().includes('mf_doge')
 }
 
 // ─── Headers ──────────────────────────────────────────────────────────────────
